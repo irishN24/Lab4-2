@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    char input[1000];
+    char *words[100];
+    int word_count = 0;
+    int count = 0;
+
+    printf("Введите последовательность слов: ");
+    fgets(input, sizeof(input), stdin);
+
+    // Удаление символа новой строки, если он есть
+    input[strcspn(input, "\n")] = 0;
+
+    // Разбиение строки на слова
+    char *token = strtok(input, " ,");
+    while (token != NULL) {
+        words[word_count++] = token;
+        token = strtok(NULL, " ,");
+    }
+
+    // Проверка каждого слова
+    for (int i = 0; i < word_count; i++) {
+        int len = strlen(words[i]);
+        if (len > 0 && tolower(words[i][0]) == tolower(words[i][len - 1])) {
+            count++;
+        }
+    }
+
+    printf("Количество слов, начинающихся и заканчивающихся одной и той же буквой: %d\n", count);
+
+    return 0;
+}
